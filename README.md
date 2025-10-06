@@ -68,7 +68,7 @@ A **comprehensive machine learning framework** for developing, testing, and depl
 
 ```bash
 # Clone the repository
-git clone https://github.com/gabriellafis/python-ml-trading-strategies.git
+git clone https://github.com/galafis/python-ml-trading-strategies.git
 cd python-ml-trading-strategies
 
 # Install dependencies
@@ -378,7 +378,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Gabriel Demetrios Lafis**
 
-- GitHub: [@gabriellafis](https://github.com/gabriellafis)
+- GitHub: [@galafis](https://github.com/galafis)
 - LinkedIn: [Gabriel Demetrios Lafis](https://linkedin.com/in/gabriel-lafis)
 
 ---
@@ -420,7 +420,7 @@ Um **framework abrangente de machine learning** para desenvolver, testar e impla
 
 ```bash
 # Clone o repositório
-git clone https://github.com/gabriellafis/python-ml-trading-strategies.git
+git clone https://github.com/galafis/python-ml-trading-strategies.git
 cd python-ml-trading-strategies
 
 # Instale as dependências
@@ -534,7 +534,7 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 
 **Gabriel Demetrios Lafis**
 
-- GitHub: [@gabriellafis](https://github.com/gabriellafis)
+- GitHub: [@galafis](https://github.com/galafis)
 - LinkedIn: [Gabriel Demetrios Lafis](https://linkedin.com/in/gabriel-lafis)
 
 ---
