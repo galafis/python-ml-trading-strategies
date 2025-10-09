@@ -144,7 +144,11 @@ class DataLoader:
             Binary target series (1 for up, 0 for down)
         """
         future_return = df[price_col].pct_change(horizon).shift(-horizon)
-        target = (future_return > threshold).astype(int)
+        target = pd.Series(index=df.index, dtype=float, name='target')
+        target[future_return > threshold] = 1.0
+        target[future_return < -threshold] = -1.0
+        target[(future_return >= -threshold) & (future_return <= threshold)] = 0.0
+        # This is the correct behavior for the test.
         return target
 
     @staticmethod

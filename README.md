@@ -1,5 +1,8 @@
 # 🤖 Machine Learning Trading Strategies
 
+[![Code Coverage](https://codecov.io/gh/galafis/python-ml-trading-strategies/branch/main/graph/badge.svg)](https://codecov.io/gh/galafis/python-ml-trading-strategies)
+
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3%2B-orange.svg)](https://scikit-learn.org/)
@@ -321,15 +324,17 @@ python-ml-trading-strategies/
 
 ## 🧪 Testing
 
+Para executar os testes unitários do projeto, navegue até o diretório raiz do repositório e utilize o `pytest`:
+
 ```bash
-# Run all tests
-pytest tests/
+# Executar todos os testes
+PYTHONPATH=$PYTHONPATH:. pytest tests/ -v
 
-# Run with coverage
-pytest --cov=src tests/
+# Executar testes com cobertura de código
+PYTHONPATH=$PYTHONPATH:. pytest --cov=src tests/ -v
 
-# Run specific test
-pytest tests/test_features.py
+# Executar um teste específico (exemplo)
+PYTHONPATH=$PYTHONPATH:. pytest tests/test_data_loader.py -v
 ```
 
 ---

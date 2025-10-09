@@ -20,18 +20,19 @@ class TradingModel:
     Base class for trading models with common functionality.
     """
 
-    def __init__(self, model_type: str = 'random_forest'):
+    def __init__(self, model_type: str = 'random_forest', **kwargs):
         """
         Initialize trading model
         
         Args:
             model_type: Type of model ('random_forest', 'xgboost', 'lightgbm', 'logistic')
+            **kwargs: Additional model parameters to pass to the underlying model constructor
         """
         self.model_type = model_type
-        self.model = None
         self.scaler = StandardScaler()
         self.feature_importance = None
         self.is_fitted = False
+        self.model = self._create_model(**kwargs) # Instantiate model during initialization
 
     def _create_model(self, **kwargs) -> Any:
         """Create the specified model type"""
