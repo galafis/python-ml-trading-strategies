@@ -1,6 +1,5 @@
 # 🤖 Machine Learning Trading Strategies
 
-[![Code Coverage](https://codecov.io/gh/galafis/python-ml-trading-strategies/branch/main/graph/badge.svg)](https://codecov.io/gh/galafis/python-ml-trading-strategies)
 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
