@@ -7,14 +7,37 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3%2B-orange.svg)](https://scikit-learn.org/)
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.0%2B-green.svg)](https://xgboost.ai/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Tests](https://img.shields.io/badge/tests-34%20passed-success)](https://github.com/galafis/python-ml-trading-strategies)
-[![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](https://github.com/galafis/python-ml-trading-strategies)
+[![Tests](https://img.shields.io/badge/tests-37%20passed-success)](https://github.com/galafis/python-ml-trading-strategies)
+[![Coverage](https://img.shields.io/badge/coverage-86%25-brightgreen)](https://github.com/galafis/python-ml-trading-strategies)
 
 [English](#english) | [Português](#português)
 
 ---
 
 <a name="english"></a>
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+- [Usage Examples](#usage-examples)
+- [Technical Indicators](#technical-indicators)
+- [Machine Learning Models](#machine-learning-models)
+- [Backtesting Engine](#backtesting-engine)
+- [Performance Metrics](#performance-metrics-explained)
+- [Advanced Usage](#advanced-usage)
+- [Technology Stack](#technology-stack)
+- [Testing](#testing)
+- [Project Structure](#project-structure)
+- [Performance Optimization](#performance-optimization)
+- [Contributing](#contributing)
+- [Troubleshooting](#troubleshooting)
+- [Important Disclaimers](#important-disclaimers)
+- [License](#license)
+- [Author](#author)
+
+---
 
 ## 📖 Overview
 
@@ -29,12 +52,36 @@ A **comprehensive machine learning framework** for developing, testing, and depl
 - **🔄 Complete Pipeline**: Data loading → Feature engineering → Training → Backtesting
 - **📉 Real Market Data**: Integration with Yahoo Finance for live data
 - **🧪 Production-Ready**: Clean code, type hints, comprehensive documentation
+- **📓 Interactive Notebooks**: Jupyter notebooks for learning and experimentation
+
+### 🎯 What Makes This Project Stand Out?
+
+✅ **37 comprehensive tests** with 86% code coverage  
+✅ **Zero flake8 errors** - PEP 8 compliant  
+✅ **Interactive Jupyter notebooks** for hands-on learning  
+✅ **Production-ready code** with type hints and documentation  
+✅ **CI/CD pipeline** with automated testing  
+✅ **Multiple examples** including synthetic data (no internet required)
 
 ---
 
 ## 🏗️ Architecture
 
-![ML Trading Strategy Pipeline](docs/images/architecture.png)
+### Complete Pipeline
+
+![ML Trading Strategy Pipeline](docs/images/pipeline_flowchart.png)
+
+The framework follows a clear, modular architecture:
+
+1. **Data Loading** - Download real market data or generate synthetic data
+2. **Feature Engineering** - Create 32+ technical indicators
+3. **Model Training** - Train and evaluate multiple ML models
+4. **Backtesting** - Simulate trading with realistic costs
+5. **Performance Analysis** - Comprehensive metrics and visualizations
+
+### Original Architecture Diagram
+
+![Architecture Overview](docs/images/architecture.png)
 
 
 ---
@@ -61,6 +108,24 @@ pip install -e .
 ```
 
 ### Running Examples
+
+#### 📓 Interactive Jupyter Notebooks (Recommended for Learning)
+
+The best way to learn the framework is through our interactive notebooks:
+
+```bash
+# Install Jupyter
+pip install jupyter notebook
+
+# Start Jupyter and open notebooks
+jupyter notebook notebooks/
+```
+
+**Available Notebooks:**
+- `01_getting_started_tutorial.ipynb` - Complete beginner-friendly tutorial
+- `02_advanced_analysis.ipynb` - SHAP values, Optuna optimization, correlation analysis
+
+See [notebooks/README.md](notebooks/README.md) for detailed guide.
 
 #### Simple Strategy with Synthetic Data (No Internet Required)
 
@@ -171,6 +236,10 @@ print(f"Win Rate: {results.win_rate:.2%}")
 
 The framework includes 32+ technical indicators:
 
+### Feature Categories
+
+![Technical Indicators Matrix](docs/images/feature_matrix.png)
+
 ### Trend Indicators
 - **SMA** (Simple Moving Average): 5, 10, 20, 50, 200 periods
 - **EMA** (Exponential Moving Average): 5, 10, 20, 50, 200 periods
@@ -190,6 +259,14 @@ The framework includes 32+ technical indicators:
 ### Volume Indicators
 - **OBV** (On-Balance Volume)
 - **VWAP** (Volume Weighted Average Price)
+
+### 🎯 Feature Importance
+
+Understanding which features drive predictions is crucial for model improvement:
+
+![Feature Importance](docs/images/feature_importance.png)
+
+The top features typically include VWAP, moving averages (EMA/SMA), and volatility indicators.
 
 ---
 
@@ -230,6 +307,12 @@ The framework includes 32+ technical indicators:
 - **Model Persistence**: Save/load trained models
 - **Hyperparameter Optimization**: Ready for Optuna integration
 
+### 📊 Model Performance Comparison
+
+![Model Performance](docs/images/model_performance_comparison.png)
+
+Ensemble methods typically provide the best balance between accuracy and robustness.
+
 ---
 
 ## 📈 Backtesting Engine
@@ -248,6 +331,12 @@ The framework includes 32+ technical indicators:
   - Total Trades
 
 ### Example Results
+
+![Backtest Results Example](docs/images/backtest_results_example.png)
+
+*Example backtest showing portfolio performance and drawdown over time*
+
+### Example Output
 
 ```
 ================================================================================
@@ -288,12 +377,22 @@ python-ml-trading-strategies/
 ├── examples/
 │   ├── complete_strategy.py          # Full example with real data
 │   └── simple_strategy_synthetic_data.py  # Quick example with synthetic data
-├── tests/                            # Unit tests (34 tests, >95% coverage)
+├── notebooks/                        # 📓 Jupyter notebooks for learning
+│   ├── 01_getting_started_tutorial.ipynb
+│   ├── 02_advanced_analysis.ipynb
+│   └── README.md
+├── tests/                            # Unit tests (37 tests, 86% coverage)
 ├── data/                             # Data storage
 │   ├── raw/
 │   └── processed/
-├── notebooks/                        # Jupyter notebooks
 ├── docs/                             # Documentation
+│   ├── images/                       # Visual diagrams
+│   ├── ml_pipeline.md
+│   ├── FAQ.md
+│   └── USE_CASES.md
+├── .github/
+│   └── workflows/
+│       └── tests.yml                 # CI/CD pipeline
 ├── requirements.txt                  # Dependencies
 ├── setup.py                          # Package setup
 ├── CONTRIBUTING.md                   # Contribution guidelines
@@ -485,10 +584,11 @@ signals = strategy.generate_signals(X_test)
 
 The project includes comprehensive unit tests covering all major components:
 
-- **34 tests** covering data loading, feature engineering, models, and backtesting
-- **95%+ code coverage** ensuring robustness
+- **37 tests** covering data loading, feature engineering, models, and backtesting
+- **86% code coverage** ensuring robustness
 - Automated testing with pytest
 - Test-driven development approach
+- CI/CD pipeline with GitHub Actions
 
 Para executar os testes unitários do projeto, navegue até o diretório raiz do repositório e utilize o `pytest`:
 
@@ -508,10 +608,17 @@ PYTHONPATH=$PYTHONPATH:. pytest tests/test_data_loader.py -v
 ```
 tests/
 ├── test_backtest_engine.py      # 11 tests for backtesting engine
-├── test_data_loader.py          # 2 tests for data loading
-├── test_ml_models.py            # 12 tests for ML models
+├── test_data_loader.py          # 5 tests for data loading
+├── test_ml_models.py            # 10 tests for ML models
 └── test_technical_indicators.py # 11 tests for indicators
 ```
+
+### Continuous Integration
+
+Automated testing runs on every push and pull request via GitHub Actions:
+- Tests across Python 3.9, 3.10, and 3.11
+- Code quality checks (flake8, black, isort)
+- Coverage reporting
 
 ---
 
@@ -548,7 +655,66 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 - Add unit tests for new features
 - Run `black` for code formatting
 - Run `flake8` for linting
-- Maintain test coverage above 90%
+- Maintain test coverage above 80%
+
+---
+
+## 📚 Quick Reference Guide
+
+### Common Commands
+
+```bash
+# Run all tests
+PYTHONPATH=$PYTHONPATH:. pytest tests/ -v
+
+# Check code coverage
+PYTHONPATH=$PYTHONPATH:. pytest --cov=src tests/ -v
+
+# Format code with black
+black src/ tests/
+
+# Check code style
+flake8 src/ --max-line-length=100
+
+# Sort imports
+isort src/ tests/
+
+# Run simple example
+cd examples && PYTHONPATH=$PYTHONPATH:../src python simple_strategy_synthetic_data.py
+
+# Start Jupyter notebooks
+jupyter notebook notebooks/
+```
+
+### Key Classes and Methods
+
+**DataLoader** (`src/utils/data_loader.py`)
+- `download_stock_data(ticker, period)` - Download market data
+- `prepare_training_data(df, target_col)` - Split into train/val/test
+- `create_target_variable(df, horizon, threshold)` - Create labels
+
+**TechnicalIndicators** (`src/features/technical_indicators.py`)
+- `add_all_features(df)` - Add all 32+ indicators
+- `calculate_sma(data, period)` - Simple moving average
+- `calculate_rsi(data, period)` - Relative strength index
+- `calculate_macd(data)` - MACD indicator
+
+**TradingModel** (`src/models/ml_models.py`)
+- `__init__(model_type)` - Initialize model (rf/xgboost/lightgbm)
+- `fit(X_train, y_train, X_val, y_val)` - Train model
+- `predict(X)` - Get predictions
+- `predict_proba(X)` - Get probabilities
+- `get_feature_importance(top_n)` - Get important features
+
+**EnsembleModel** (`src/models/ml_models.py`)
+- `__init__(models, voting)` - Combine multiple models
+- `fit(X_train, y_train)` - Train ensemble
+- `predict(X)` - Get ensemble predictions
+
+**BacktestEngine** (`src/backtesting/backtest_engine.py`)
+- `__init__(initial_capital, commission, slippage)` - Setup engine
+- `generate_signals_from_predictions(predictions, threshold)` - Create signals
+- `run_backtest(data, signals, price_col)` - Run simulation
 
 ---
 
@@ -590,6 +756,16 @@ Um **framework abrangente de machine learning** para desenvolver, testar e impla
 - **🔄 Pipeline Completo**: Carregamento de dados → Engenharia de features → Treinamento → Backtesting
 - **📉 Dados Reais de Mercado**: Integração com Yahoo Finance
 - **🧪 Pronto para Produção**: Código limpo, type hints, documentação completa
+- **📓 Notebooks Interativos**: Notebooks Jupyter para aprendizado e experimentação
+
+### 🎯 O Que Torna Este Projeto Especial?
+
+✅ **37 testes abrangentes** com 86% de cobertura  
+✅ **Zero erros flake8** - Compatível com PEP 8  
+✅ **Notebooks Jupyter interativos** para aprendizado prático  
+✅ **Código pronto para produção** com type hints e documentação  
+✅ **Pipeline CI/CD** com testes automatizados  
+✅ **Múltiplos exemplos** incluindo dados sintéticos (sem necessidade de internet)
 
 ---
 
@@ -615,6 +791,26 @@ pip install -e .
 ```
 
 ### Executando o Exemplo Completo
+
+#### 📓 Notebooks Jupyter Interativos (Recomendado para Aprendizado)
+
+A melhor maneira de aprender o framework é através de nossos notebooks interativos:
+
+```bash
+# Instalar Jupyter
+pip install jupyter notebook
+
+# Iniciar Jupyter e abrir notebooks
+jupyter notebook notebooks/
+```
+
+**Notebooks Disponíveis:**
+- `01_getting_started_tutorial.ipynb` - Tutorial completo para iniciantes
+- `02_advanced_analysis.ipynb` - Análise SHAP, otimização Optuna, análise de correlação
+
+Veja [notebooks/README.md](notebooks/README.md) para guia detalhado.
+
+#### Executando Exemplos Python
 
 ```bash
 cd examples
