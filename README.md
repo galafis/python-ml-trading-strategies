@@ -756,6 +756,16 @@ Um **framework abrangente de machine learning** para desenvolver, testar e impla
 - **🔄 Pipeline Completo**: Carregamento de dados → Engenharia de features → Treinamento → Backtesting
 - **📉 Dados Reais de Mercado**: Integração com Yahoo Finance
 - **🧪 Pronto para Produção**: Código limpo, type hints, documentação completa
+- **📓 Notebooks Interativos**: Notebooks Jupyter para aprendizado e experimentação
+
+### 🎯 O Que Torna Este Projeto Especial?
+
+✅ **37 testes abrangentes** com 86% de cobertura  
+✅ **Zero erros flake8** - Compatível com PEP 8  
+✅ **Notebooks Jupyter interativos** para aprendizado prático  
+✅ **Código pronto para produção** com type hints e documentação  
+✅ **Pipeline CI/CD** com testes automatizados  
+✅ **Múltiplos exemplos** incluindo dados sintéticos (sem necessidade de internet)
 
 ---
 
@@ -781,6 +791,26 @@ pip install -e .
 ```
 
 ### Executando o Exemplo Completo
+
+#### 📓 Notebooks Jupyter Interativos (Recomendado para Aprendizado)
+
+A melhor maneira de aprender o framework é através de nossos notebooks interativos:
+
+```bash
+# Instalar Jupyter
+pip install jupyter notebook
+
+# Iniciar Jupyter e abrir notebooks
+jupyter notebook notebooks/
+```
+
+**Notebooks Disponíveis:**
+- `01_getting_started_tutorial.ipynb` - Tutorial completo para iniciantes
+- `02_advanced_analysis.ipynb` - Análise SHAP, otimização Optuna, análise de correlação
+
+Veja [notebooks/README.md](notebooks/README.md) para guia detalhado.
+
+#### Executando Exemplos Python
 
 ```bash
 cd examples
