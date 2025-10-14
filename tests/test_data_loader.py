@@ -82,28 +82,30 @@ def test_create_target_variable():
 def test_prepare_training_data():
     """Test prepare_training_data method"""
     # Create sample data
-    data = pd.DataFrame({
-        'feature1': range(100),
-        'feature2': range(100, 200),
-        'target': [0, 1, 2] * 33 + [0]
-    })
-    
+    data = pd.DataFrame(
+        {
+            "feature1": range(100),
+            "feature2": range(100, 200),
+            "target": [0, 1, 2] * 33 + [0],
+        }
+    )
+
     loader = DataLoader()
     X_train, X_val, X_test, y_train, y_val, y_test = loader.prepare_training_data(
-        data, target_col='target', test_size=0.2, validation_size=0.1
+        data, target_col="target", test_size=0.2, validation_size=0.1
     )
-    
+
     # Check splits
     assert len(X_train) > 0
     assert len(X_val) > 0
     assert len(X_test) > 0
     assert len(X_train) + len(X_val) + len(X_test) == len(data)
-    
+
     # Check features
-    assert 'feature1' in X_train.columns
-    assert 'feature2' in X_train.columns
-    assert 'target' not in X_train.columns
-    
+    assert "feature1" in X_train.columns
+    assert "feature2" in X_train.columns
+    assert "target" not in X_train.columns
+
     # Check targets
     assert len(y_train) == len(X_train)
     assert len(y_val) == len(X_val)
@@ -115,14 +117,14 @@ def test_create_regression_target():
     data = pd.DataFrame({"close": [100, 101, 102, 103, 104, 105, 106]})
     loader = DataLoader()
     regression_target = loader.create_regression_target(data, horizon=2)
-    
+
     # Check that it returns future returns
     # Day 0: (102 - 100) / 100 = 0.02
     # Day 1: (103 - 101) / 101 ≈ 0.0198
     assert isinstance(regression_target, pd.Series)
     assert abs(regression_target.iloc[0] - 0.02) < 0.0001
     assert abs(regression_target.iloc[1] - 0.0198) < 0.0001
-    
+
     # Last two values should be NaN
     assert pd.isna(regression_target.iloc[-1])
     assert pd.isna(regression_target.iloc[-2])
@@ -130,20 +132,17 @@ def test_create_regression_target():
 
 def test_prepare_training_data_with_different_sizes():
     """Test prepare_training_data with custom split sizes"""
-    data = pd.DataFrame({
-        'feature1': range(100),
-        'target': [0, 1] * 50
-    })
-    
+    data = pd.DataFrame({"feature1": range(100), "target": [0, 1] * 50})
+
     loader = DataLoader()
-    
+
     # Test with larger test size
     X_train, X_val, X_test, y_train, y_val, y_test = loader.prepare_training_data(
-        data, target_col='target', test_size=0.3, validation_size=0.15
+        data, target_col="target", test_size=0.3, validation_size=0.15
     )
-    
+
     total = len(X_train) + len(X_val) + len(X_test)
     test_pct = len(X_test) / total
-    
+
     # Test size should be approximately 30%
     assert abs(test_pct - 0.3) < 0.05

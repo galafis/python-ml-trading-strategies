@@ -160,9 +160,7 @@ class DataLoader:
             target = pd.Series(index=df.index, dtype=float, name="target")
             target[future_return > threshold] = 2.0
             target[future_return < -threshold] = 0.0
-            target[
-                (future_return >= -threshold) & (future_return <= threshold)
-            ] = 1.0
+            target[(future_return >= -threshold) & (future_return <= threshold)] = 1.0
 
         return target
         return target
