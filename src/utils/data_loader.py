@@ -132,25 +132,39 @@ class DataLoader:
         price_col: str = "close",
         horizon: int = 1,
         threshold: float = 0.0,
+        binary: bool = False,
     ) -> pd.Series:
         """
-        Create binary target variable for classification
+        Create target variable for classification
 
         Args:
             df: DataFrame with price data
             price_col: Name of price column
             horizon: Number of periods to look ahead
             threshold: Minimum return to classify as positive
+            binary: If True, create binary classification (0=down/neutral, 1=up)
+                   If False, create 3-class (0=down, 1=neutral, 2=up)
 
         Returns:
-            Binary target series (1 for up, 0 for down)
+            Target series with class labels
         """
         future_return = df[price_col].pct_change(horizon).shift(-horizon)
-        target = pd.Series(index=df.index, dtype=float, name="target")
-        target[future_return > threshold] = 1.0
-        target[future_return < -threshold] = -1.0
-        target[(future_return >= -threshold) & (future_return <= threshold)] = 0.0
-        # This is the correct behavior for the test.
+
+        if binary:
+            # Binary classification: 0=down/neutral, 1=up
+            target = pd.Series(index=df.index, dtype=float, name="target")
+            target[future_return > threshold] = 1.0
+            target[future_return <= threshold] = 0.0
+        else:
+            # 3-class classification: 0=down, 1=neutral, 2=up (XGBoost compatible)
+            target = pd.Series(index=df.index, dtype=float, name="target")
+            target[future_return > threshold] = 2.0
+            target[future_return < -threshold] = 0.0
+            target[
+                (future_return >= -threshold) & (future_return <= threshold)
+            ] = 1.0
+
+        return target
         return target
 
     @staticmethod

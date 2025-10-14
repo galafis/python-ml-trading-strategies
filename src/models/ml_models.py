@@ -262,7 +262,9 @@ class EnsembleModel:
 
         if voting == "hard":
             # Majority voting
-            predictions = np.array([model.predict(X) for model in self.models])
+            predictions = np.array(
+                [model.predict(X) for model in self.models], dtype=int
+            )
             return np.apply_along_axis(
                 lambda x: np.bincount(x).argmax(), axis=0, arr=predictions
             )
