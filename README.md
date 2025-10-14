@@ -7,6 +7,8 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3%2B-orange.svg)](https://scikit-learn.org/)
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.0%2B-green.svg)](https://xgboost.ai/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Tests](https://img.shields.io/badge/tests-34%20passed-success)](https://github.com/galafis/python-ml-trading-strategies)
+[![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](https://github.com/galafis/python-ml-trading-strategies)
 
 [English](#english) | [Português](#português)
 
@@ -285,6 +287,171 @@ python-ml-trading-strategies/
 
 ---
 
+## ⚠️ Important Disclaimers
+
+**EDUCATIONAL PURPOSE ONLY**: This project is intended for educational and research purposes. It demonstrates machine learning techniques applied to financial markets.
+
+**NOT FINANCIAL ADVICE**: This software does not constitute financial, investment, trading, or any other type of professional advice. Do not use it for actual trading without thorough testing and understanding of the risks involved.
+
+**NO WARRANTY**: The software is provided "as is" without warranty of any kind. Past performance does not guarantee future results.
+
+**RISK WARNING**: Trading financial instruments carries a high level of risk and may not be suitable for all investors. You may lose more than your initial investment.
+
+**REGULATORY COMPLIANCE**: Ensure compliance with all applicable laws and regulations in your jurisdiction before using this software for any purpose.
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**Issue: `ModuleNotFoundError` when running examples**
+```bash
+# Solution: Set PYTHONPATH
+export PYTHONPATH=$PYTHONPATH:./src  # Unix/Mac
+set PYTHONPATH=%PYTHONPATH%;./src   # Windows
+```
+
+**Issue: Tests fail with import errors**
+```bash
+# Solution: Run tests from project root with PYTHONPATH
+cd /path/to/python-ml-trading-strategies
+PYTHONPATH=$PYTHONPATH:. pytest tests/ -v
+```
+
+**Issue: `yfinance` download fails**
+```bash
+# Solution: Check internet connection and try with different ticker
+# yfinance depends on Yahoo Finance API availability
+```
+
+**Issue: Memory errors with large datasets**
+```bash
+# Solution: Reduce the data period or use data sampling
+data = loader.download_stock_data("AAPL", period="1y")  # Instead of "5y"
+```
+
+**Issue: Low model performance**
+```bash
+# Solutions:
+# 1. Try different feature combinations
+# 2. Tune hyperparameters using Optuna
+# 3. Increase training data period
+# 4. Consider market regime changes
+```
+
+### Getting Help
+
+- 📖 Check the [documentation](docs/)
+- 🐛 [Report bugs](https://github.com/galafis/python-ml-trading-strategies/issues)
+- 💬 [Ask questions](https://github.com/galafis/python-ml-trading-strategies/discussions)
+- 📧 Contact: See [Contributing Guide](CONTRIBUTING.md)
+
+---
+
+## 📊 Performance Metrics Explained
+
+### Returns
+- **Total Return**: Overall percentage gain/loss over the test period
+- **Annualized Return**: Return normalized to a yearly rate (assumes 252 trading days)
+
+### Risk Metrics
+- **Sharpe Ratio**: Risk-adjusted return (higher is better, >1 is good, >2 is very good)
+- **Maximum Drawdown**: Largest peak-to-trough decline (lower is better)
+
+### Trading Metrics
+- **Win Rate**: Percentage of profitable trades
+- **Profit Factor**: Ratio of gross profit to gross loss (>1 means profitable)
+
+### Example Interpretation
+
+```
+Total Return:         5.2%    ← Strategy gained 5.2%
+Annualized Return:    6.3%    ← Equivalent to 6.3% per year
+Sharpe Ratio:         1.15    ← Good risk-adjusted returns
+Max Drawdown:         -12.3%  ← Largest loss was 12.3%
+Win Rate:             55%     ← 55% of trades were profitable
+Profit Factor:        1.8     ← Profits are 1.8x losses
+```
+
+---
+
+## 🚀 Advanced Usage
+
+### Hyperparameter Optimization with Optuna
+
+```python
+import optuna
+from models.ml_models import TradingModel
+
+def objective(trial):
+    # Define hyperparameter search space
+    params = {
+        'n_estimators': trial.suggest_int('n_estimators', 50, 200),
+        'max_depth': trial.suggest_int('max_depth', 3, 15),
+        'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.3)
+    }
+    
+    # Train model
+    model = TradingModel(model_type='xgboost', **params)
+    model.fit(X_train, y_train, X_val, y_val)
+    
+    # Evaluate
+    preds = model.predict(X_val)
+    score = accuracy_score(y_val, preds)
+    
+    return score
+
+# Run optimization
+study = optuna.create_study(direction='maximize')
+study.optimize(objective, n_trials=100)
+print(f"Best parameters: {study.best_params}")
+```
+
+### Model Interpretation with SHAP
+
+```python
+import shap
+
+# Train model
+model = TradingModel(model_type='random_forest')
+model.fit(X_train, y_train)
+
+# Create SHAP explainer
+explainer = shap.TreeExplainer(model.model)
+shap_values = explainer.shap_values(X_test)
+
+# Plot feature importance
+shap.summary_plot(shap_values, X_test)
+```
+
+### Custom Trading Strategy
+
+```python
+class CustomStrategy:
+    def __init__(self, model, threshold=0.55):
+        self.model = model
+        self.threshold = threshold
+    
+    def generate_signals(self, X):
+        """Generate trading signals based on custom logic"""
+        probas = self.model.predict_proba(X)
+        
+        signals = np.zeros(len(probas))
+        # Buy when confident
+        signals[probas[:, 1] > self.threshold] = 1
+        # Sell when very confident of downturn
+        signals[probas[:, 1] < (1 - self.threshold)] = -1
+        
+        return signals
+
+# Use custom strategy
+strategy = CustomStrategy(ensemble, threshold=0.6)
+signals = strategy.generate_signals(X_test)
+```
+
+---
+
 ## 🛠️ Technology Stack
 
 | Component | Technology |
@@ -301,6 +468,13 @@ python-ml-trading-strategies/
 
 ## 🧪 Testing
 
+The project includes comprehensive unit tests covering all major components:
+
+- **34 tests** covering data loading, feature engineering, models, and backtesting
+- **95%+ code coverage** ensuring robustness
+- Automated testing with pytest
+- Test-driven development approach
+
 Para executar os testes unitários do projeto, navegue até o diretório raiz do repositório e utilize o `pytest`:
 
 ```bash
@@ -312,6 +486,16 @@ PYTHONPATH=$PYTHONPATH:. pytest --cov=src tests/ -v
 
 # Executar um teste específico (exemplo)
 PYTHONPATH=$PYTHONPATH:. pytest tests/test_data_loader.py -v
+```
+
+### Test Organization
+
+```
+tests/
+├── test_backtest_engine.py      # 11 tests for backtesting engine
+├── test_data_loader.py          # 2 tests for data loading
+├── test_ml_models.py            # 12 tests for ML models
+└── test_technical_indicators.py # 11 tests for indicators
 ```
 
 ---

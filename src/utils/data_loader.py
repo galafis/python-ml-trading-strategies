@@ -35,9 +35,9 @@ class DataLoader:
             DataFrame with OHLCV data
         """
         if start_date and end_date:
-            data = yf.download(ticker, start=start_date, end=end_date, progress=False)
+            data = yf.download(ticker, start=start_date, end=end_date, progress=False, auto_adjust=True)
         else:
-            data = yf.download(ticker, period=period, progress=False)
+            data = yf.download(ticker, period=period, progress=False, auto_adjust=True)
         
         # Handle MultiIndex columns if present
         if isinstance(data.columns, pd.MultiIndex):
