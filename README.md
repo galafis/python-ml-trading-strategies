@@ -60,11 +60,24 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### Running the Complete Example
+### Running Examples
+
+#### Simple Strategy with Synthetic Data (No Internet Required)
+
+Perfect for testing and learning without network dependency:
 
 ```bash
 cd examples
-python complete_strategy.py
+PYTHONPATH=$PYTHONPATH:../src python simple_strategy_synthetic_data.py
+```
+
+#### Complete Strategy with Real Market Data
+
+Uses Yahoo Finance to download real stock data:
+
+```bash
+cd examples
+PYTHONPATH=$PYTHONPATH:../src python complete_strategy.py
 ```
 
 ---
@@ -273,8 +286,9 @@ python-ml-trading-strategies/
 │   │   └── __init__.py
 │   └── __init__.py
 ├── examples/
-│   └── complete_strategy.py          # End-to-end example
-├── tests/                            # Unit tests
+│   ├── complete_strategy.py          # Full example with real data
+│   └── simple_strategy_synthetic_data.py  # Quick example with synthetic data
+├── tests/                            # Unit tests (34 tests, >95% coverage)
 ├── data/                             # Data storage
 │   ├── raw/
 │   └── processed/
@@ -282,6 +296,7 @@ python-ml-trading-strategies/
 ├── docs/                             # Documentation
 ├── requirements.txt                  # Dependencies
 ├── setup.py                          # Package setup
+├── CONTRIBUTING.md                   # Contribution guidelines
 └── README.md                         # This file
 ```
 
