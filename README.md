@@ -515,7 +515,9 @@ tests/
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these guidelines:
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for detailed guidelines.
+
+### Quick Start for Contributors
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -531,6 +533,7 @@ Contributions are welcome! Please follow these guidelines:
 - Add unit tests for new features
 - Run `black` for code formatting
 - Run `flake8` for linting
+- Maintain test coverage above 90%
 
 ---
 
@@ -710,6 +713,68 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 Se este projeto foi útil para você, considere dar uma ⭐️!
 
 
+
+---
+
+## ⚠️ Avisos Importantes
+
+**APENAS PARA FINS EDUCACIONAIS**: Este projeto é destinado apenas para fins educacionais e de pesquisa. Ele demonstra técnicas de machine learning aplicadas aos mercados financeiros.
+
+**NÃO É CONSELHO FINANCEIRO**: Este software não constitui aconselhamento financeiro, de investimento, de negociação ou qualquer outro tipo de conselho profissional. Não o utilize para negociação real sem testes completos e compreensão dos riscos envolvidos.
+
+**SEM GARANTIAS**: O software é fornecido "como está", sem garantias de qualquer tipo. Desempenho passado não garante resultados futuros.
+
+**AVISO DE RISCO**: Negociar instrumentos financeiros envolve alto risco e pode não ser adequado para todos os investidores. Você pode perder mais do que seu investimento inicial.
+
+**CONFORMIDADE REGULATÓRIA**: Certifique-se de estar em conformidade com todas as leis e regulamentos aplicáveis em sua jurisdição antes de usar este software para qualquer finalidade.
+
+---
+
+## 🔧 Solução de Problemas
+
+### Problemas Comuns
+
+**Problema: `ModuleNotFoundError` ao executar exemplos**
+```bash
+# Solução: Definir PYTHONPATH
+export PYTHONPATH=$PYTHONPATH:./src  # Unix/Mac
+set PYTHONPATH=%PYTHONPATH%;./src   # Windows
+```
+
+**Problema: Testes falham com erros de importação**
+```bash
+# Solução: Execute testes da raiz do projeto com PYTHONPATH
+cd /caminho/para/python-ml-trading-strategies
+PYTHONPATH=$PYTHONPATH:. pytest tests/ -v
+```
+
+**Problema: Download do `yfinance` falha**
+```bash
+# Solução: Verifique conexão com internet e tente com ticker diferente
+# yfinance depende da disponibilidade da API do Yahoo Finance
+```
+
+**Problema: Erros de memória com grandes datasets**
+```bash
+# Solução: Reduza o período de dados ou use amostragem
+data = loader.download_stock_data("AAPL", period="1y")  # Ao invés de "5y"
+```
+
+**Problema: Baixa performance do modelo**
+```bash
+# Soluções:
+# 1. Tente diferentes combinações de features
+# 2. Ajuste hiperparâmetros usando Optuna
+# 3. Aumente período de dados de treinamento
+# 4. Considere mudanças de regime de mercado
+```
+
+### Obtendo Ajuda
+
+- 📖 Consulte a [documentação](docs/)
+- 🐛 [Reporte bugs](https://github.com/galafis/python-ml-trading-strategies/issues)
+- 💬 [Faça perguntas](https://github.com/galafis/python-ml-trading-strategies/discussions)
+- 📧 Contato: Veja o [Guia de Contribuição](CONTRIBUTING.md)
 
 ---
 
