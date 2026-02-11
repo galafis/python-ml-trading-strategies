@@ -60,7 +60,7 @@ A **comprehensive machine learning framework** for developing, testing, and depl
 ✅ **Zero flake8 errors** - PEP 8 compliant  
 ✅ **Interactive Jupyter notebooks** for hands-on learning  
 ✅ **Production-ready code** with type hints and documentation  
-✅ **CI/CD pipeline** with automated testing  
+✅ **Automated testing pipeline** for continuous quality checks  
 ✅ **Multiple examples** including synthetic data (no internet required)
 
 ---
@@ -390,9 +390,6 @@ python-ml-trading-strategies/
 │   ├── ml_pipeline.md
 │   ├── FAQ.md
 │   └── USE_CASES.md
-├── .github/
-│   └── workflows/
-│       └── tests.yml                 # CI/CD pipeline
 ├── requirements.txt                  # Dependencies
 ├── setup.py                          # Package setup
 ├── CONTRIBUTING.md                   # Contribution guidelines
@@ -588,7 +585,7 @@ The project includes comprehensive unit tests covering all major components:
 - **86% code coverage** ensuring robustness
 - Automated testing with pytest
 - Test-driven development approach
-- CI/CD pipeline with GitHub Actions
+- Automated test execution on repository updates
 
 Para executar os testes unitários do projeto, navegue até o diretório raiz do repositório e utilize o `pytest`:
 
@@ -613,9 +610,9 @@ tests/
 └── test_technical_indicators.py # 11 tests for indicators
 ```
 
-### Continuous Integration
+### Continuous Testing
 
-Automated testing runs on every push and pull request via GitHub Actions:
+Automated checks validate repository updates:
 - Tests across Python 3.9, 3.10, and 3.11
 - Code quality checks (flake8, black, isort)
 - Coverage reporting
@@ -764,7 +761,7 @@ Um **framework abrangente de machine learning** para desenvolver, testar e impla
 ✅ **Zero erros flake8** - Compatível com PEP 8  
 ✅ **Notebooks Jupyter interativos** para aprendizado prático  
 ✅ **Código pronto para produção** com type hints e documentação  
-✅ **Pipeline CI/CD** com testes automatizados  
+✅ **Pipeline de testes automatizados** para verificacoes continuas  
 ✅ **Múltiplos exemplos** incluindo dados sintéticos (sem necessidade de internet)
 
 ---
