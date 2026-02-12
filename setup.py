@@ -11,7 +11,7 @@ setup(
     description="Machine Learning Trading Strategies with Advanced Feature Engineering and Backtesting",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/gabriellafis/python-ml-trading-strategies",
+    url="https://github.com/galafis/python-ml-trading-strategies",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     classifiers=[
@@ -33,11 +33,7 @@ setup(
         "lightgbm>=4.0.0",
         "yfinance>=0.2.28",
         "matplotlib>=3.7.0",
-        "seaborn>=0.12.0",
-        "plotly>=5.14.0",
         "joblib>=1.3.0",
-        "optuna>=3.3.0",
-        "shap>=0.42.0",
     ],
     extras_require={
         "dev": [

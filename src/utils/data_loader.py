@@ -163,7 +163,6 @@ class DataLoader:
             target[(future_return >= -threshold) & (future_return <= threshold)] = 1.0
 
         return target
-        return target
 
     @staticmethod
     def create_regression_target(

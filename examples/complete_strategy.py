@@ -68,40 +68,35 @@ def main():
     print(f"Test set: {len(X_test)} samples")
     print(f"Features: {len(X_train.columns)}")
 
-    # Class distribution
+    # Class distribution (3-class: 0=down, 1=neutral, 2=up)
     print("\nTarget distribution (train):")
-    print(f"  Up (1): {(y_train == 1).sum()} ({(y_train == 1).mean():.1%})")
-    print(f"  Down (0): {(y_train == 0).sum()} ({(y_train == 0).mean():.1%})")
+    print(f"  Down  (0): {(y_train == 0).sum()} ({(y_train == 0).mean():.1%})")
+    print(f"  Neutral(1): {(y_train == 1).sum()} ({(y_train == 1).mean():.1%})")
+    print(f"  Up    (2): {(y_train == 2).sum()} ({(y_train == 2).mean():.1%})")
 
     # Step 4: Train Models
     print("\n[4/5] Training models...")
 
     # Train Random Forest
     print("  Training Random Forest...")
-    rf_model = TradingModel(model_type="random_forest")
-    rf_model.fit(
-        X_train,
-        y_train,
-        X_val,
-        y_val,
-        n_estimators=100,
-        max_depth=10,
-        min_samples_split=5,
+    rf_model = TradingModel(
+        model_type="random_forest", n_estimators=100, max_depth=10, min_samples_split=5
     )
+    rf_model.fit(X_train, y_train, X_val, y_val)
 
     # Train XGBoost
     print("  Training XGBoost...")
-    xgb_model = TradingModel(model_type="xgboost")
-    xgb_model.fit(
-        X_train, y_train, X_val, y_val, n_estimators=100, max_depth=6, learning_rate=0.1
+    xgb_model = TradingModel(
+        model_type="xgboost", n_estimators=100, max_depth=6, learning_rate=0.1
     )
+    xgb_model.fit(X_train, y_train, X_val, y_val)
 
     # Train LightGBM
     print("  Training LightGBM...")
-    lgb_model = TradingModel(model_type="lightgbm")
-    lgb_model.fit(
-        X_train, y_train, X_val, y_val, n_estimators=100, max_depth=6, learning_rate=0.1
+    lgb_model = TradingModel(
+        model_type="lightgbm", n_estimators=100, max_depth=6, learning_rate=0.1
     )
+    lgb_model.fit(X_train, y_train, X_val, y_val)
 
     # Create Ensemble
     print("  Creating ensemble model...")
@@ -121,9 +116,9 @@ def main():
     ]:
         val_pred = model.predict(X_val)
         acc = accuracy_score(y_val, val_pred)
-        prec = precision_score(y_val, val_pred, zero_division=0)
-        rec = recall_score(y_val, val_pred, zero_division=0)
-        f1 = f1_score(y_val, val_pred, zero_division=0)
+        prec = precision_score(y_val, val_pred, zero_division=0, average="weighted")
+        rec = recall_score(y_val, val_pred, zero_division=0, average="weighted")
+        f1 = f1_score(y_val, val_pred, zero_division=0, average="weighted")
 
         print(
             f"    {name:15s} - Accuracy: {acc:.3f}, "

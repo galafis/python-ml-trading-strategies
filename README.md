@@ -1,433 +1,234 @@
-# 📈 Python Ml Trading Strategies
+# Python ML Trading Strategies
 
-> Machine Learning framework for quantitative trading strategies with feature engineering, backtesting, and ensemble models
+Framework de Machine Learning para estrategias de trading quantitativo com engenharia de features, backtesting e modelos ensemble.
 
-[![Python](https://img.shields.io/badge/Python-3.12-3776AB.svg)](https://img.shields.io/badge/)
-[![Gin](https://img.shields.io/badge/Gin-1.9-00ADD8.svg)](https://img.shields.io/badge/)
-[![NumPy](https://img.shields.io/badge/NumPy-1.26-013243.svg)](https://img.shields.io/badge/)
-[![Pandas](https://img.shields.io/badge/Pandas-2.2-150458.svg)](https://img.shields.io/badge/)
-[![Plotly](https://img.shields.io/badge/Plotly-5.18-3F4F75.svg)](https://img.shields.io/badge/)
-[![scikit--learn](https://img.shields.io/badge/scikit--learn-1.4-F7931E.svg)](https://img.shields.io/badge/)
-[![XGBoost](https://img.shields.io/badge/XGBoost-2.0-FF6600.svg)](https://img.shields.io/badge/)
+[![Python](https://img.shields.io/badge/Python-3.9+-3776AB.svg)](https://python.org)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3+-F7931E.svg)](https://scikit-learn.org)
+[![XGBoost](https://img.shields.io/badge/XGBoost-2.0+-FF6600.svg)](https://xgboost.readthedocs.io)
+[![LightGBM](https://img.shields.io/badge/LightGBM-4.0+-2980B9.svg)](https://lightgbm.readthedocs.io)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-[English](#english) | [Português](#português)
+[Portugues](#portugues) | [English](#english)
+
+---
+
+## Portugues
+
+### Sobre
+
+Projeto educacional que implementa um pipeline de ML para classificacao de movimentos de preco de acoes. O framework cobre: download de dados via Yahoo Finance, calculo de indicadores tecnicos, treinamento de modelos de classificacao (Random Forest, XGBoost, LightGBM, Logistic Regression), ensemble com votacao, e backtesting com custos de transacao.
+
+**Aviso:** Projeto para fins educacionais. Nao constitui aconselhamento financeiro.
+
+### Funcionalidades
+
+- **Download de dados** via `yfinance` (OHLCV de qualquer ticker)
+- **14+ indicadores tecnicos**: SMA, EMA, RSI, MACD, Bollinger Bands, ATR, Stochastic, OBV, ADX, VWAP, retornos e volatilidade em multiplos periodos
+- **4 tipos de modelo**: Random Forest, XGBoost, LightGBM, Logistic Regression
+- **Ensemble** com votacao hard ou soft (media de probabilidades)
+- **Backtesting** com capital inicial, comissao, slippage e metricas de performance
+- **Variavel alvo** configuravel: classificacao binaria ou 3 classes (down/neutral/up)
+- **Divisao temporal** dos dados (sem shuffling, respeitando serie temporal)
+
+### Arquitetura
+
+```
+DataLoader (yfinance)
+    |
+    v
+TechnicalIndicators (14+ indicadores)
+    |
+    v
+TradingModel / EnsembleModel (scikit-learn, XGBoost, LightGBM)
+    |
+    v
+BacktestEngine (sinais -> simulacao de portfolio)
+    |
+    v
+BacktestResults (retorno, Sharpe, drawdown, win rate, profit factor)
+```
+
+### Inicio Rapido
+
+```bash
+# Clonar
+git clone https://github.com/galafis/python-ml-trading-strategies.git
+cd python-ml-trading-strategies
+
+# Ambiente virtual
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# Dependencias
+pip install -r requirements.txt
+
+# Executar exemplo com dados sinteticos (sem internet)
+cd examples
+PYTHONPATH=$PYTHONPATH:../src python simple_strategy_synthetic_data.py
+
+# Executar exemplo com dados reais (requer internet)
+PYTHONPATH=$PYTHONPATH:../src python complete_strategy.py
+```
+
+### Testes
+
+```bash
+PYTHONPATH=$PYTHONPATH:. pytest tests/ -v
+```
+
+### Estrutura do Projeto
+
+```
+python-ml-trading-strategies/
+├── src/
+│   ├── backtesting/
+│   │   └── backtest_engine.py    # Motor de backtesting e metricas
+│   ├── features/
+│   │   └── technical_indicators.py  # Calculo de indicadores tecnicos
+│   ├── models/
+│   │   └── ml_models.py          # TradingModel e EnsembleModel
+│   └── utils/
+│       └── data_loader.py        # Download de dados e preparacao
+├── examples/
+│   ├── complete_strategy.py      # Pipeline completo com dados reais
+│   └── simple_strategy_synthetic_data.py  # Pipeline com dados sinteticos
+├── notebooks/
+│   ├── 01_getting_started_tutorial.ipynb
+│   └── 02_advanced_analysis.ipynb
+├── tests/
+│   ├── test_backtest_engine.py
+│   ├── test_data_loader.py
+│   ├── test_ml_models.py
+│   └── test_technical_indicators.py
+├── docs/
+│   └── ml_pipeline.md
+├── requirements.txt
+├── setup.py
+└── LICENSE
+```
+
+### Metricas de Backtesting
+
+| Metrica | Descricao |
+|---------|-----------|
+| Total Return | Retorno total do portfolio |
+| Annualized Return | Retorno anualizado (base 252 dias) |
+| Sharpe Ratio | Retorno ajustado ao risco |
+| Max Drawdown | Maior queda do pico ao vale |
+| Win Rate | Percentual de trades lucrativos |
+| Profit Factor | Lucro bruto / Perda bruta |
+
+### Tecnologias
+
+| Tecnologia | Uso |
+|------------|-----|
+| Python 3.9+ | Linguagem principal |
+| NumPy / Pandas | Manipulacao de dados |
+| scikit-learn | Modelos ML e preprocessamento |
+| XGBoost | Gradient boosting |
+| LightGBM | Gradient boosting |
+| yfinance | Download de dados de mercado |
+| matplotlib | Visualizacao (exemplos e notebooks) |
+| joblib | Serializacao de modelos |
 
 ---
 
 ## English
 
-### 🎯 Overview
+### About
 
-**Python Ml Trading Strategies** is a production-grade Python application that showcases modern software engineering practices including clean architecture, comprehensive testing, containerized deployment, and CI/CD readiness.
+Educational project implementing an ML pipeline for stock price movement classification. The framework covers: data download via Yahoo Finance, technical indicator calculation, classification model training (Random Forest, XGBoost, LightGBM, Logistic Regression), ensemble with voting, and backtesting with transaction costs.
 
-The codebase comprises **2,142 lines** of source code organized across **17 modules**, following industry best practices for maintainability, scalability, and code quality.
+**Disclaimer:** Educational project only. Not financial advice.
 
-### ✨ Key Features
+### Features
 
-- **📈 Strategy Engine**: Multiple trading strategy implementations with configurable parameters
-- **🔄 Backtesting Framework**: Historical data simulation with realistic market conditions
-- **📊 Performance Analytics**: Sharpe ratio, Sortino ratio, maximum drawdown, and more
-- **⚡ Real-time Processing**: Low-latency data processing optimized for market speed
-- **🤖 ML Pipeline**: End-to-end machine learning workflow from data to deployment
-- **🔬 Feature Engineering**: Automated feature extraction and transformation
-- **📊 Model Evaluation**: Comprehensive metrics and cross-validation
-- **🚀 Model Serving**: Production-ready prediction API
+- **Data download** via `yfinance` (OHLCV for any ticker)
+- **14+ technical indicators**: SMA, EMA, RSI, MACD, Bollinger Bands, ATR, Stochastic, OBV, ADX, VWAP, multi-period returns and volatility
+- **4 model types**: Random Forest, XGBoost, LightGBM, Logistic Regression
+- **Ensemble** with hard or soft voting (probability averaging)
+- **Backtesting** with initial capital, commission, slippage and performance metrics
+- **Configurable target**: binary or 3-class classification (down/neutral/up)
+- **Time-series split** (no shuffling, respects temporal order)
 
-### 🏗️ Architecture
+### Architecture
 
-```mermaid
-graph TB
-    subgraph Client["🖥️ Client Layer"]
-        A[REST API Client]
-        B[Swagger UI]
-    end
-    
-    subgraph API["⚡ API Layer"]
-        C[Authentication & Rate Limiting]
-        D[Request Validation]
-        E[API Endpoints]
-    end
-    
-    subgraph ML["🤖 ML Engine"]
-        F[Feature Engineering]
-        G[Model Training]
-        H[Prediction Service]
-        I[Model Registry]
-    end
-    
-    subgraph Data["💾 Data Layer"]
-        J[(Database)]
-        K[Cache Layer]
-        L[Data Pipeline]
-    end
-    
-    A --> C
-    B --> C
-    C --> D --> E
-    E --> H
-    E --> J
-    H --> F --> G
-    G --> I
-    I --> H
-    E --> K
-    L --> J
-    
-    style Client fill:#e1f5fe
-    style API fill:#f3e5f5
-    style ML fill:#e8f5e9
-    style Data fill:#fff3e0
+```
+DataLoader (yfinance)
+    |
+    v
+TechnicalIndicators (14+ indicators)
+    |
+    v
+TradingModel / EnsembleModel (scikit-learn, XGBoost, LightGBM)
+    |
+    v
+BacktestEngine (signals -> portfolio simulation)
+    |
+    v
+BacktestResults (return, Sharpe, drawdown, win rate, profit factor)
 ```
 
-```mermaid
-classDiagram
-    class TechnicalIndicators
-    class BacktestEngine
-    class EnsembleModel
-    class TradingModel
-    class BacktestResults
-    class DataLoader
-    BacktestEngine --> EnsembleModel : uses
-    BacktestEngine --> TradingModel : uses
-    BacktestEngine --> TechnicalIndicators : uses
-    BacktestEngine --> BacktestResults : uses
-    BacktestEngine --> DataLoader : uses
-```
-
-### 🚀 Quick Start
-
-#### Prerequisites
-
-- Python 3.12+
-- pip (Python package manager)
-
-#### Installation
+### Quick Start
 
 ```bash
-# Clone the repository
+# Clone
 git clone https://github.com/galafis/python-ml-trading-strategies.git
 cd python-ml-trading-strategies
 
-# Create and activate virtual environment
+# Virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# Install dependencies
+# Dependencies
 pip install -r requirements.txt
+
+# Run example with synthetic data (no internet needed)
+cd examples
+PYTHONPATH=$PYTHONPATH:../src python simple_strategy_synthetic_data.py
+
+# Run example with real data (requires internet)
+PYTHONPATH=$PYTHONPATH:../src python complete_strategy.py
 ```
 
-#### Running
+### Tests
 
 ```bash
-# Run the application
-python src/main.py
+PYTHONPATH=$PYTHONPATH:. pytest tests/ -v
 ```
 
-### 🧪 Testing
+### Backtesting Metrics
 
-```bash
-# Run all tests
-pytest
+| Metric | Description |
+|--------|-------------|
+| Total Return | Total portfolio return |
+| Annualized Return | Annualized return (252-day basis) |
+| Sharpe Ratio | Risk-adjusted return |
+| Max Drawdown | Largest peak-to-trough decline |
+| Win Rate | Percentage of profitable trades |
+| Profit Factor | Gross profit / Gross loss |
 
-# Run with coverage report
-pytest --cov --cov-report=html
+### Tech Stack
 
-# Run specific test module
-pytest tests/test_main.py -v
-
-# Run with detailed output
-pytest -v --tb=short
-```
-
-### 📁 Project Structure
-
-```
-python-ml-trading-strategies/
-├── data/
-│   ├── processed/
-│   └── raw/
-├── docs/          # Documentation
-│   ├── images/
-│   ├── AUDIT_SUMMARY.md
-│   ├── FAQ.md
-│   ├── USE_CASES.md
-│   └── ml_pipeline.md
-├── examples/
-│   ├── complete_strategy.py
-│   └── simple_strategy_synthetic_data.py
-├── notebooks/
-│   └── README.md
-├── src/          # Source code
-│   ├── backtesting/
-│   │   ├── __init__.py
-│   │   └── backtest_engine.py
-│   ├── features/
-│   │   ├── __init__.py
-│   │   └── technical_indicators.py
-│   ├── models/        # Data models
-│   │   ├── __init__.py
-│   │   └── ml_models.py
-│   ├── strategies/    # Trading strategies
-│   │   └── __init__.py
-│   ├── utils/         # Utilities
-│   │   ├── __init__.py
-│   │   └── data_loader.py
-│   └── __init__.py
-├── tests/         # Test suite
-│   ├── test_backtest_engine.py
-│   ├── test_data_loader.py
-│   ├── test_ml_models.py
-│   └── test_technical_indicators.py
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── README.md
-├── requirements.txt
-└── setup.py
-```
-
-### 📊 Performance Metrics
-
-The engine calculates comprehensive performance metrics:
-
-| Metric | Description | Formula |
-|--------|-------------|---------|
-| **Sharpe Ratio** | Risk-adjusted return | (Rp - Rf) / σp |
-| **Sortino Ratio** | Downside risk-adjusted return | (Rp - Rf) / σd |
-| **Max Drawdown** | Maximum peak-to-trough decline | max(1 - Pt/Pmax) |
-| **Win Rate** | Percentage of profitable trades | Wins / Total |
-| **Profit Factor** | Gross profit / Gross loss | ΣProfit / ΣLoss |
-| **Calmar Ratio** | Return / Max Drawdown | CAGR / MDD |
-| **VaR (95%)** | Value at Risk | 5th percentile of returns |
-| **Expected Shortfall** | Conditional VaR | E[R | R < VaR] |
-
-### 🛠️ Tech Stack
-
-| Technology | Description | Role |
-|------------|-------------|------|
-| **Python** | Core Language | Primary |
-| **Gin** | Go web framework | Framework |
-| **NumPy** | Numerical computing | Framework |
-| **Pandas** | Data manipulation library | Framework |
-| **Plotly** | Interactive visualization | Framework |
-| **scikit-learn** | Machine learning library | Framework |
-| **XGBoost** | Gradient boosting framework | Framework |
-
-### 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-### 👤 Author
-
-**Gabriel Demetrios Lafis**
-- GitHub: [@galafis](https://github.com/galafis)
-- LinkedIn: [Gabriel Demetrios Lafis](https://linkedin.com/in/gabriel-demetrios-lafis)
+| Technology | Usage |
+|------------|-------|
+| Python 3.9+ | Core language |
+| NumPy / Pandas | Data manipulation |
+| scikit-learn | ML models and preprocessing |
+| XGBoost | Gradient boosting |
+| LightGBM | Gradient boosting |
+| yfinance | Market data download |
+| matplotlib | Visualization (examples and notebooks) |
+| joblib | Model serialization |
 
 ---
 
-## Português
-
-### 🎯 Visão Geral
-
-**Python Ml Trading Strategies** é uma aplicação Python de nível profissional que demonstra práticas modernas de engenharia de software, incluindo arquitetura limpa, testes abrangentes, implantação containerizada e prontidão para CI/CD.
-
-A base de código compreende **2,142 linhas** de código-fonte organizadas em **17 módulos**, seguindo as melhores práticas do setor para manutenibilidade, escalabilidade e qualidade de código.
-
-### ✨ Funcionalidades Principais
-
-- **📈 Strategy Engine**: Multiple trading strategy implementations with configurable parameters
-- **🔄 Backtesting Framework**: Historical data simulation with realistic market conditions
-- **📊 Performance Analytics**: Sharpe ratio, Sortino ratio, maximum drawdown, and more
-- **⚡ Real-time Processing**: Low-latency data processing optimized for market speed
-- **🤖 ML Pipeline**: End-to-end machine learning workflow from data to deployment
-- **🔬 Feature Engineering**: Automated feature extraction and transformation
-- **📊 Model Evaluation**: Comprehensive metrics and cross-validation
-- **🚀 Model Serving**: Production-ready prediction API
-
-### 🏗️ Arquitetura
-
-```mermaid
-graph TB
-    subgraph Client["🖥️ Client Layer"]
-        A[REST API Client]
-        B[Swagger UI]
-    end
-    
-    subgraph API["⚡ API Layer"]
-        C[Authentication & Rate Limiting]
-        D[Request Validation]
-        E[API Endpoints]
-    end
-    
-    subgraph ML["🤖 ML Engine"]
-        F[Feature Engineering]
-        G[Model Training]
-        H[Prediction Service]
-        I[Model Registry]
-    end
-    
-    subgraph Data["💾 Data Layer"]
-        J[(Database)]
-        K[Cache Layer]
-        L[Data Pipeline]
-    end
-    
-    A --> C
-    B --> C
-    C --> D --> E
-    E --> H
-    E --> J
-    H --> F --> G
-    G --> I
-    I --> H
-    E --> K
-    L --> J
-    
-    style Client fill:#e1f5fe
-    style API fill:#f3e5f5
-    style ML fill:#e8f5e9
-    style Data fill:#fff3e0
-```
-
-### 🚀 Início Rápido
-
-#### Prerequisites
-
-- Python 3.12+
-- pip (Python package manager)
-
-#### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/galafis/python-ml-trading-strategies.git
-cd python-ml-trading-strategies
-
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-#### Running
-
-```bash
-# Run the application
-python src/main.py
-```
-
-### 🧪 Testing
-
-```bash
-# Run all tests
-pytest
-
-# Run with coverage report
-pytest --cov --cov-report=html
-
-# Run specific test module
-pytest tests/test_main.py -v
-
-# Run with detailed output
-pytest -v --tb=short
-```
-
-### 📁 Estrutura do Projeto
-
-```
-python-ml-trading-strategies/
-├── data/
-│   ├── processed/
-│   └── raw/
-├── docs/          # Documentation
-│   ├── images/
-│   ├── AUDIT_SUMMARY.md
-│   ├── FAQ.md
-│   ├── USE_CASES.md
-│   └── ml_pipeline.md
-├── examples/
-│   ├── complete_strategy.py
-│   └── simple_strategy_synthetic_data.py
-├── notebooks/
-│   └── README.md
-├── src/          # Source code
-│   ├── backtesting/
-│   │   ├── __init__.py
-│   │   └── backtest_engine.py
-│   ├── features/
-│   │   ├── __init__.py
-│   │   └── technical_indicators.py
-│   ├── models/        # Data models
-│   │   ├── __init__.py
-│   │   └── ml_models.py
-│   ├── strategies/    # Trading strategies
-│   │   └── __init__.py
-│   ├── utils/         # Utilities
-│   │   ├── __init__.py
-│   │   └── data_loader.py
-│   └── __init__.py
-├── tests/         # Test suite
-│   ├── test_backtest_engine.py
-│   ├── test_data_loader.py
-│   ├── test_ml_models.py
-│   └── test_technical_indicators.py
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── README.md
-├── requirements.txt
-└── setup.py
-```
-
-### 📊 Performance Metrics
-
-The engine calculates comprehensive performance metrics:
-
-| Metric | Description | Formula |
-|--------|-------------|---------|
-| **Sharpe Ratio** | Risk-adjusted return | (Rp - Rf) / σp |
-| **Sortino Ratio** | Downside risk-adjusted return | (Rp - Rf) / σd |
-| **Max Drawdown** | Maximum peak-to-trough decline | max(1 - Pt/Pmax) |
-| **Win Rate** | Percentage of profitable trades | Wins / Total |
-| **Profit Factor** | Gross profit / Gross loss | ΣProfit / ΣLoss |
-| **Calmar Ratio** | Return / Max Drawdown | CAGR / MDD |
-| **VaR (95%)** | Value at Risk | 5th percentile of returns |
-| **Expected Shortfall** | Conditional VaR | E[R | R < VaR] |
-
-### 🛠️ Stack Tecnológica
-
-| Tecnologia | Descrição | Papel |
-|------------|-----------|-------|
-| **Python** | Core Language | Primary |
-| **Gin** | Go web framework | Framework |
-| **NumPy** | Numerical computing | Framework |
-| **Pandas** | Data manipulation library | Framework |
-| **Plotly** | Interactive visualization | Framework |
-| **scikit-learn** | Machine learning library | Framework |
-| **XGBoost** | Gradient boosting framework | Framework |
-
-### 🤝 Contribuindo
-
-Contribuições são bem-vindas! Sinta-se à vontade para enviar um Pull Request.
-
-### 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-### 👤 Autor
+## Autor / Author
 
 **Gabriel Demetrios Lafis**
 - GitHub: [@galafis](https://github.com/galafis)
 - LinkedIn: [Gabriel Demetrios Lafis](https://linkedin.com/in/gabriel-demetrios-lafis)
+
+## Licenca / License
+
+MIT License - see [LICENSE](LICENSE).

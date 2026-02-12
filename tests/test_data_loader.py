@@ -1,31 +1,30 @@
 from unittest.mock import patch
 
 import pandas as pd
-import yfinance as yf
 
 from src.utils.data_loader import DataLoader
 
 
 def test_download_stock_data_success():
-    with patch.object(yf.Ticker, "history") as mock_history:
-        mock_history.return_value = pd.DataFrame(
-            {
-                "Open": [100, 101, 102],
-                "High": [102, 103, 104],
-                "Low": [99, 100, 101],
-                "close": [101, 102, 103],
-                "Volume": [1000, 1100, 1200],
-            },
-            index=pd.to_datetime(["2023-01-01", "2023-01-02", "2023-01-03"]),
-        )
+    mock_df = pd.DataFrame(
+        {
+            "Open": [100, 101, 102],
+            "High": [102, 103, 104],
+            "Low": [99, 100, 101],
+            "Close": [101, 102, 103],
+            "Volume": [1000, 1100, 1200],
+        },
+        index=pd.to_datetime(["2023-01-01", "2023-01-02", "2023-01-03"]),
+    )
 
+    with patch("src.utils.data_loader.yf.download", return_value=mock_df) as mock_dl:
         loader = DataLoader()
         data = loader.download_stock_data("AAPL", period="1d")
 
         assert not data.empty
         assert "close" in data.columns
         assert len(data) == 3
-        mock_history.assert_called_once()
+        mock_dl.assert_called_once()
 
 
 def test_create_target_variable():

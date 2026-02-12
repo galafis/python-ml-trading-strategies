@@ -231,14 +231,22 @@ class BacktestEngine:
         """
         signals = np.zeros(len(predictions))
 
-        # If predictions are probabilities
+        # If predictions are probabilities (2D array from predict_proba)
         if predictions.ndim == 2:
-            buy_proba = predictions[:, 1]
+            n_classes = predictions.shape[1]
+            if n_classes == 3:
+                # 3-class: column 0=down, 1=neutral, 2=up
+                buy_proba = predictions[:, 2]
+                sell_proba = predictions[:, 0]
+            else:
+                # Binary: column 0=down, 1=up
+                buy_proba = predictions[:, 1]
+                sell_proba = predictions[:, 0]
             signals[buy_proba > threshold] = 1
-            signals[buy_proba < (1 - threshold)] = -1
+            signals[sell_proba > threshold] = -1
         else:
-            # If predictions are class labels
-            signals[predictions == 1] = 1
+            # If predictions are class labels (3-class: 0=down, 1=neutral, 2=up)
+            signals[predictions == 2] = 1
             signals[predictions == 0] = -1
 
         return pd.Series(signals)
