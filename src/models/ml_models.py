@@ -83,7 +83,6 @@ class TradingModel:
         y_train: pd.Series,
         X_val: Optional[pd.DataFrame] = None,
         y_val: Optional[pd.Series] = None,
-        **kwargs,
     ) -> "TradingModel":
         """
         Train the model
@@ -91,18 +90,14 @@ class TradingModel:
         Args:
             X_train: Training features
             y_train: Training target
-            X_val: Validation features (optional)
+            X_val: Validation features (optional, used for early stopping with xgboost/lightgbm)
             y_val: Validation target (optional)
-            **kwargs: Additional model parameters
 
         Returns:
             Self for method chaining
         """
         # Scale features
         X_train_scaled = self.scaler.fit_transform(X_train)
-
-        # Create and train model
-        self.model = self._create_model(**kwargs)
 
         # Train with early stopping if validation data provided
         if (

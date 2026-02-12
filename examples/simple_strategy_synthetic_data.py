@@ -109,13 +109,13 @@ def main():
 
     # Train Random Forest (quick training for demo)
     print("  Training Random Forest...")
-    rf_model = TradingModel(model_type="random_forest")
-    rf_model.fit(X_train, y_train, X_val, y_val, n_estimators=50, max_depth=8)
+    rf_model = TradingModel(model_type="random_forest", n_estimators=50, max_depth=8)
+    rf_model.fit(X_train, y_train, X_val, y_val)
 
     # Train XGBoost
     print("  Training XGBoost...")
-    xgb_model = TradingModel(model_type="xgboost")
-    xgb_model.fit(X_train, y_train, X_val, y_val, n_estimators=50, max_depth=5)
+    xgb_model = TradingModel(model_type="xgboost", n_estimators=50, max_depth=5)
+    xgb_model.fit(X_train, y_train, X_val, y_val)
 
     # Create Ensemble
     print("  Creating ensemble model...")
