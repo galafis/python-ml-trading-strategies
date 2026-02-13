@@ -32,20 +32,12 @@ Projeto educacional que implementa um pipeline de ML para classificacao de movim
 
 ### Arquitetura
 
-```
-DataLoader (yfinance)
-    |
-    v
-TechnicalIndicators (14+ indicadores)
-    |
-    v
-TradingModel / EnsembleModel (scikit-learn, XGBoost, LightGBM)
-    |
-    v
-BacktestEngine (sinais -> simulacao de portfolio)
-    |
-    v
-BacktestResults (retorno, Sharpe, drawdown, win rate, profit factor)
+```mermaid
+graph TD
+    A["data_loader.py<br/>Download OHLCV via yfinance"] --> B["technical_indicators.py<br/>14+ Indicadores Tecnicos"]
+    B --> C["ml_models.py<br/>TradingModel & EnsembleModel"]
+    C --> D["backtest_engine.py<br/>Simulacao de Portfolio & Metricas"]
+    D --> E["BacktestResults<br/>Sharpe, Drawdown, Win Rate"]
 ```
 
 ### Inicio Rapido
@@ -153,20 +145,12 @@ Educational project implementing an ML pipeline for stock price movement classif
 
 ### Architecture
 
-```
-DataLoader (yfinance)
-    |
-    v
-TechnicalIndicators (14+ indicators)
-    |
-    v
-TradingModel / EnsembleModel (scikit-learn, XGBoost, LightGBM)
-    |
-    v
-BacktestEngine (signals -> portfolio simulation)
-    |
-    v
-BacktestResults (return, Sharpe, drawdown, win rate, profit factor)
+```mermaid
+graph TD
+    A["data_loader.py<br/>Download OHLCV via yfinance"] --> B["technical_indicators.py<br/>14+ Technical Indicators"]
+    B --> C["ml_models.py<br/>TradingModel & EnsembleModel"]
+    C --> D["backtest_engine.py<br/>Portfolio Simulation & Metrics"]
+    D --> E["BacktestResults<br/>Sharpe, Drawdown, Win Rate"]
 ```
 
 ### Quick Start
