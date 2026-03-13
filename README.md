@@ -7,6 +7,7 @@ Framework de Machine Learning para estrategias de trading quantitativo com engen
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.0+-FF6600.svg)](https://xgboost.readthedocs.io)
 [![LightGBM](https://img.shields.io/badge/LightGBM-4.0+-2980B9.svg)](https://lightgbm.readthedocs.io)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker)](Dockerfile)
 
 [Portugues](#portugues) | [English](#english)
 
